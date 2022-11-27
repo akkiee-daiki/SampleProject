@@ -18,63 +18,66 @@
     </select>
     <h3>配列から連動プルダウンを作る</h3>
     <h3>DBのデータから連動プルダウンを作る</h3>
-    <button id="bt">ajaxボタン</button>
+    <button id="bt">ajax button</button>
     <div class="ajax_container">
+        <select name="testName" id="ajaxSelectBox1">
+            <option value="">-</option>
+        </select>
+        <select name="test2Name" id="ajaxSelectBox2"></select>
 
     </div>
     <script src="{{ asset('/js/jquery-3.6.1.min.js') }}"></script>
     <script>
-        // うまく行かなかった↓
-        // $("#bt").click(function () {
-        //     $.ajax({
-        //         type: "get", //HTTP通信の種類
-        //         url: "/getDataAsync",
-        //         dataType: "json",
-        //     })
-        //         //通信が成功したとき
-        //         .done((res) => { // resの部分にコントローラーから返ってきた値 $users が入る
-        //         $.each(res, function (getDataAsync, value) {
-        //             html = `
-        //                         <div="user-list">
-        //                             <td class="col-xs-2">ユーザー名：${value.name}</td>
-        //                         </div>
-        //             `;
-        //         $(".ajax_container").append(html); //できあがったテンプレートを user-tableクラスの中に追加
-        //         });
-        //         })
-        //         //通信が失敗したとき
-        //         .fail((error) => {
-        //         console.log(error.statusText);
-        //         })phpphp;
-        // });
-
         $('#bt').click(function (){
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                type: 'POST',
+                // type: 'POST',
+                type: 'GET',
                 url: 'sample/getDataAsync/',
                 dataType: 'json',
+            })
+            // 通信が成功したとき
+            .then((res) => {
+                $('#ajaxSelectBox1').empty();
+                $('#ajaxSelectBox2').empty();
+                $.each(res, function(index, value) {
+                    html = '<option value="' + value.id +  '">' + value.name + '</option>'
+                    $('#ajaxSelectBox1').append(html);
+                })
+
+            })
+            .fail((error) => {
+                console.log(error.statusText);
+            })
+        });
+
+        $('#ajaxSelectBox1').change(function(){
+            let parentId = $(this).val();
+            console.log(parentId);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                // type: 'POST',
+                type: "GET",
+                url: 'sample/getDataAsyncDetail/',
+                dataType: 'json',
                 data: {
-                    uid: 100,
-                    subject: 'テスト',
-                    from: 'テストfrom',
-                    body: 'テストbody',
+                    'parentId' : parentId
                 },
             })
-                // 通信が成功したとき
-                .then((res) => {
-                    console.log(res);
-                    $.each(res, function(index, value) {
-                        html = '<p style="color: red">' + value.id + value.name + '</p>';
-                        $('.ajax_container').append(html);
-                    })
-
-                })
-                .fail((error) => {
-                    console.log(error.statusText);
-                })
+            .then((res) => {
+                $('#ajaxSelectBox2').empty();
+                $.each(res, function(index, value) {
+                    html = '<option value="' + value.id + '">' + value.name + '</option>'
+                    $('#ajaxSelectBox2').append(html);
+               })
+            })
+            .fail((error) => {
+                console.log(error.statusText);
+            })
         });
     </script>
 </body>
