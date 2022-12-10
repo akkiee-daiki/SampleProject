@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Repository;
+namespace App\Repository;
 
 use Illuminate\Support\Facades\DB;
 
@@ -12,15 +12,15 @@ class FruitRepository {
             ->get();
     }
 
-    public function getBreeds($fruitId) {
+    public function getBreeds($input) {
         $query =  DB::table('fruit_breed')
             ->select('breed_id', 'name')
-            ->where('fruit_id', '=', $fruitId)
+            ->where('fruit_id', '=', $input['fruitId'])
             ->get();
         $list = [];
-        foreach ($query as $v) {
-            $list['breed_id'] = $v->breed_id;
-            $list['name'] = $v->name;
+        foreach ($query as $k => $v) {
+            $list[$k]['breed_id'] = $v->breed_id;
+            $list[$k]['name'] = $v->name;
         }
         return $list;
 

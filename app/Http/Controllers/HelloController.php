@@ -12,6 +12,7 @@ class HelloController extends Controller {
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request) {
+        var_dump($request->all());
         $a = DB::table('test')->get();
         return view('sample')->with(['array' => $a ?? []]);
     }
