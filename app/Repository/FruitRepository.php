@@ -25,4 +25,22 @@ class FruitRepository {
         return $list;
 
     }
+
+    public function insertRow($input) {
+        DB::beginTransaction();
+        try {
+            DB::table('fruit_lover')->insert([
+                'name' => $input['name'],
+                'fruit_id' => $input['fruitId'],
+                'breed_id' => $input['breedId'],
+                'memo' => $input['memo']
+            ]);
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
+        }
+
+    }
 }

@@ -9,18 +9,24 @@
 </head>
 <body>
 <h1>果物リスト</h1>
-<form action="" method="post">
+
+<form action="" method="post" id="js-fruitForm">
     @csrf
+    <label for="name">名前</label>
     <input type="text" name="name">
-    <select name="fruit" id="js-fruitSelectBox">
-        <option value="">選択してください</option>
+    <label for="fruitId">果物</label>
+    <select name="fruitId" id="js-fruitSelectBox">
+        <option value="" selected>選択してください</option>
         @foreach($fruits as $fruit)
             <option value="{{ $fruit->fruit_id }}">{{ $fruit->name }}</option>
         @endforeach
     </select>
-    <select name="test2Name" id="js-breedSelectBox">
+    <label for="bredId">品種</label>
+    <select name="breedId" id="js-breedSelectBox">
         <option value="">-</option>
     </select>
+    <label for="memo">メモ</label>
+    <textarea name="memo" cols="30" rows="1"></textarea>
     <button type="button" id="js-RegisterFruitPerson">登録</button>
 </form>
 
@@ -41,7 +47,7 @@
             $('#js-breedSelectBox').empty();
             let html = '';
             if (Object.keys(d.breeds).length > 0) {
-                html +=  '<option value="">選択してください</option>';
+                html +=  '<option value="" selected>選択してください</option>';
                 $.each(d.breeds, function(index, value) {
                     html += '<option value="' + value.breed_id +  '">' + value.name + '</option>';
                 });
@@ -54,6 +60,10 @@
         }).fail((error) => {
             alert('エラーが発生しました。やり直してください');
             });
+    });
+
+    $('#js-RegisterFruitPerson').on('click', function (){
+       $('#js-fruitForm').attr('action', '{{ route("fruit.store") }}').submit();
     });
 
 </script>
