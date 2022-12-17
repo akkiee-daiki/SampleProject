@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <title>果物好きの人の登録</title>　
 </head>
 <body>
@@ -13,7 +14,10 @@
 <form action="" method="post" id="js-fruitForm">
     @csrf
     <label for="name">名前</label>
-    <input type="text" name="name">
+    <input type="text" name="name" maxlength="255">
+    @error('name')
+        <p class="error_message">{{ $message }}</p>
+    @enderror
     <label for="fruitId">果物</label>
     <select name="fruitId" id="js-fruitSelectBox">
         <option value="" selected>選択してください</option>
@@ -21,12 +25,21 @@
             <option value="{{ $fruit->fruit_id }}">{{ $fruit->name }}</option>
         @endforeach
     </select>
-    <label for="bredId">品種</label>
+    @error('fruitId')
+        <p class="error_message">{{ $message }}</p>
+    @enderror
+    <label for="breedId">品種</label>
     <select name="breedId" id="js-breedSelectBox">
         <option value="">-</option>
     </select>
+    @error('breedId')
+        <p class="error_message">{{ $message }}</p>
+    @enderror
     <label for="memo">メモ</label>
-    <textarea name="memo" cols="30" rows="1"></textarea>
+    <textarea name="memo" cols="30" rows="1" maxlength="255"></textarea>
+    @error('memo')
+        <p class="error_message">{{ $message }}</p>
+    @enderror
     <button type="button" id="js-RegisterFruitPerson">登録</button>
 </form>
 <div class="btn_container">

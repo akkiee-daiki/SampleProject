@@ -51,7 +51,7 @@ class FruitController extends Controller
         return response()->json(['breeds' => $breeds]);
     }
 
-    public function store(Request $request) {
+    public function store(FruitRequest $request) {
         $input = $request->except(['_token']);
         if (!$this->fruitRepository->insertRow($input)) {
             abort(500);

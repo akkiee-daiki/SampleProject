@@ -7,26 +7,34 @@ use Illuminate\Foundation\Http\FormRequest;
 class FruitRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    // 後ほど削除
-    public function authorize()
-    {
-//        return false;
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array<string, mixed>
      */
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'max:255'],
+            'fruitId' => ['required'],
+            'breedId' => ['required'],
+            'memo' => ['max:255']
         ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name' => '名前',
+            'fruitId' => '果物',
+            'breedId' => '品種',
+            'memo' => 'メモ'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attributeを入力してください。',
+            'max' => ':attributeは:max文字以下で入力してください。'
+        ];
+
     }
 }
