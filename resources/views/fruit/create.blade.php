@@ -14,7 +14,7 @@
 <form action="" method="post" id="js-fruitForm">
     @csrf
     <label for="name">名前</label>
-    <input type="text" name="name" maxlength="255">
+    <input type="text" name="name" maxlength="255" value="{{ old('name') ?? '' }}">
     @error('name')
         <p class="error_message">{{ $message }}</p>
     @enderror
@@ -22,7 +22,7 @@
     <select name="fruitId" id="js-fruitSelectBox">
         <option value="" selected>選択してください</option>
         @foreach($fruits as $fruit)
-            <option value="{{ $fruit->fruit_id }}">{{ $fruit->name }}</option>
+            <option value="{{ $fruit->fruit_id }}" @if((old('fruitId') ?? '') === (string)$fruit->fruit_id) selected @endif>{{ $fruit->name }}</option>
         @endforeach
     </select>
     @error('fruitId')
@@ -36,7 +36,7 @@
         <p class="error_message">{{ $message }}</p>
     @enderror
     <label for="memo">メモ</label>
-    <textarea name="memo" cols="30" rows="1" maxlength="255"></textarea>
+    <textarea name="memo" cols="30" rows="1" maxlength="255">{{ old('memo') ?? '' }}</textarea>
     @error('memo')
         <p class="error_message">{{ $message }}</p>
     @enderror
