@@ -4,80 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>果物一覧</title>　
 </head>
 <body>
-<h1>果物リスト</h1>
-<select name="array" id="">
-{{--    @foreach($array as $value)--}}
-{{--        <option value="{{ $value->id }}">{{ $value->memo }}</option>--}}
-{{--    @endforeach--}}
-
-</select>
-<h3></h3>
-<h3>DBのデータから連動プルダウンを作る</h3>
-<button id="bt">ajax button</button>
-<div class="ajax_container">
-    <select name="testName" id="ajaxSelectBox1">
-        <option value="">-</option>
-    </select>
-    <select name="test2Name" id="ajaxSelectBox2"></select>
-
+<h1>果物好きリスト</h1>
+<div class="btn_container">
+    <button onclick="location.href='{{ route('fruit.create') }}' ">新規追加する</button>
+</div>
 </div>
 <script src="{{ asset('/js/jquery-3.6.1.min.js') }}"></script>
 <script>
-    $('#bt').click(function (){
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            // type: 'POST',
-            type: 'GET',
-            url: 'sample/getDataAsync/',
-            dataType: 'json',
-        })
-            // 通信が成功したとき
-            .then((res) => {
-                $('#ajaxSelectBox1').empty();
-                $('#ajaxSelectBox2').empty();
-                $.each(res, function(index, value) {
-                    html = '<option value="' + value.id +  '">' + value.name + '</option>'
-                    $('#ajaxSelectBox1').append(html);
-                })
-
-            })
-            .fail((error) => {
-                console.log(error.statusText);
-            })
-    });
-    //
-    // $('#ajaxSelectBox1').change(function(){
-    //     let parentId = $(this).val();
-    //     console.log(parentId);
-    //     $.ajax({
-    //         headers: {
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         // type: 'POST',
-    //         type: "GET",
-    //         url: 'sample/getDataAsyncDetail/',
-    //         dataType: 'json',
-    //         data: {
-    //             'parentId' : parentId
-    //         },
-    //     })
-    //         .then((res) => {
-    //             $('#ajaxSelectBox2').empty();
-    //             $.each(res, function(index, value) {
-    //                 html = '<option value="' + value.id + '">' + value.name + '</option>'
-    //                 $('#ajaxSelectBox2').append(html);
-    //             })
-    //         })
-    //         .fail((error) => {
-    //             console.log(error.statusText);
-    //         })
-    // });
 </script>
 </body>
 </html>

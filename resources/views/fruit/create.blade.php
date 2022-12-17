@@ -29,6 +29,9 @@
     <textarea name="memo" cols="30" rows="1"></textarea>
     <button type="button" id="js-RegisterFruitPerson">登録</button>
 </form>
+<div class="btn_container">
+    <button onclick="location.href='{{ route('fruit.index') }}' ">一覧画面に戻る</button>
+</div>
 
 <script src="{{ asset('/js/jquery-3.6.1.min.js') }}"></script>
 <script>
