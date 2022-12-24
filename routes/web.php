@@ -29,6 +29,7 @@ Route::group(['prefix' => '/fruit', 'as' => 'fruit.'], function (){
     Route::match(['get', 'post'], '/', [FruitController::class, 'index'])->name('index');
     Route::get('/create', [FruitController::class, 'create'])->name('create');
     Route::post('/get_breed', [FruitController::class, 'get_breed'])->name('get_breed');
+    Route::post('/create_confirm', [FruitController::class, 'create_confirm'])->name('create_confirm');
     Route::post('/store', [FruitController::class, 'store'])->name('store');
     Route::get('/edit', [FruitController::class, 'edit'])->name('edit');
     Route::post('/update', [FruitController::class, 'update'])->name('update');
