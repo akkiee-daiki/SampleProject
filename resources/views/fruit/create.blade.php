@@ -9,8 +9,7 @@
     <title>果物好きの人の登録</title>　
 </head>
 <body>
-<h1>果物リスト</h1>
-
+<h1>果物好き入力</h1>
 <form action="" method="post" id="js-fruitForm">
     @csrf
     <label for="name">名前</label>
@@ -18,6 +17,7 @@
     @error('name')
         <p class="error_message">{{ $message }}</p>
     @enderror
+
     <label for="fruitId">果物</label>
     <select name="fruitId" id="js-fruitSelectBox">
         <option value="" selected>選択してください</option>
@@ -28,19 +28,29 @@
     @error('fruitId')
         <p class="error_message">{{ $message }}</p>
     @enderror
+
     <label for="breedId">品種</label>
     <select name="breedId" id="js-breedSelectBox">
-        <option value="">-</option>
+        @if(session()->hasOldInput('breeds'))
+            @foreach(old('breeds') ?? [] as $breed)
+                <option value="{{ $breed['breed_id'] }}" @if((string)$breed['breed_id'] === (string)(old('breedId') ?? '')) selected @endif >{{ $breed['name'] }}</option>
+            @endforeach
+        @else
+            <option value="">-</option>
+        @endif
     </select>
     @error('breedId')
         <p class="error_message">{{ $message }}</p>
     @enderror
+
     <label for="memo">メモ</label>
     <textarea name="memo" cols="30" rows="1" maxlength="255">{{ old('memo') ?? '' }}</textarea>
     @error('memo')
         <p class="error_message">{{ $message }}</p>
     @enderror
-    <button type="button" id="js-RegisterFruitPerson">登録</button>
+
+    <button type="button" id="js-confirmFruitPerson">確認画面へ</button>
+
 </form>
 <div class="btn_container">
     <button onclick="location.href='{{ route('fruit.index') }}' ">一覧画面に戻る</button>
@@ -70,18 +80,19 @@
             } else {
                 html += '<option value="">-</option>';
             }
+
             $('#js-breedSelectBox').append(html);
 
-
         }).fail((error) => {
+
             alert('エラーが発生しました。やり直してください');
             });
     });
 
-    $('#js-RegisterFruitPerson').on('click', function (){
-       $('#js-fruitForm').attr('action', '{{ route("fruit.store") }}').submit();
+    $('#js-confirmFruitPerson').on('click', function (){
+        $('#js-fruitForm').attr('action', '{{ route("fruit.store") }}').submit();
     });
 
-</script>
+    </script>
 </body>
 </html>

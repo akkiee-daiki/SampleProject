@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FruitRequest;
 use App\Repository\FruitRepository;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 
 class FruitController extends Controller
@@ -51,11 +53,23 @@ class FruitController extends Controller
         return response()->json(['breeds' => $breeds]);
     }
 
-    public function store(FruitRequest $request) {
+    public function store(Request $request) {
         $input = $request->except(['_token']);
+        $input['breeds'] = $this->fruitRepository->getBreeds($input);
+
+        $fruitReq = new FruitRequest();
+        $validator = Validator::make($input, $fruitReq->rules(), $fruitReq->messages(), $fruitReq->attributes());
+        if ($validator->fails()) {
+            return redirect()
+                ->route('fruit.create')
+                ->withErrors($validator)
+                ->withInput($input);
+        }
+
         if (!$this->fruitRepository->insertRow($input)) {
             abort(500);
         }
+
         return redirect()->route('fruit.index');
     }
 
