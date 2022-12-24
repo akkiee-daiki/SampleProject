@@ -4,8 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FruitRequest extends FormRequest
-{
+class FruitRequest extends FormRequest {
     /**
      * @return array<string, mixed>
      */
