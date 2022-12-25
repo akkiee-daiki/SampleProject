@@ -9,7 +9,7 @@
 <body>
 <h1>果物好きリスト</h1>
 <div class="btn_container">
-    <button onclick="location.href='{{ route('fruit.create') }}' ">新規追加する</button>
+    <button onclick="location.href='{{ route('fruit.create') }}'">新規追加する</button>
 </div>
 </div>
 <script src="{{ asset('/js/jquery-3.6.1.min.js') }}"></script>

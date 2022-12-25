@@ -49,6 +49,17 @@
         <p class="error_message">{{ $message }}</p>
     @enderror
 
+    <div id="js-beforePassword">パスワードの前</div>
+    @if(old('fruitId') === '3')
+        <div id="js-productAreaDiv">
+            <label for="product_area">産地</label>
+            <input type="text" name="product_area" maxlength="255" value="{{ old('product_area') ?? '' }}">
+            @error('product_area')
+                <p class="error_message">{{ $message }}</p>
+            @enderror
+        </div>
+    @endif
+
     <button type="button" id="js-confirmFruitPerson">確認画面へ</button>
 
 </form>
@@ -82,6 +93,20 @@
             }
 
             $('#js-breedSelectBox').append(html);
+
+            {{-- ぶどうが選択されたときのみ産地の入力欄を追加する --}}
+            {{-- 違う会社が選択されたら非表示にする --}}
+            $('#js-productAreaDiv').remove();
+            if (fruitId === '3') {
+                let html = '';
+
+                html += '<div id="js-productAreaDiv">';
+                html += '   <label for="product_area">産地</label>';
+                html += '   <input type="text" name="product_area" maxlength="255">'
+                html += '</div>'
+
+                $('#js-beforePassword').after(html);
+            }
 
         }).fail((error) => {
 

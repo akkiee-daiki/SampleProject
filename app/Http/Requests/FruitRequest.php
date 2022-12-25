@@ -14,7 +14,8 @@ class FruitRequest extends FormRequest {
             'name' => ['required', 'max:255'],
             'fruitId' => ['required'],
             'breedId' => ['required'],
-            'memo' => ['max:255']
+            'memo' => ['max:255'],
+            'product_area' => ['required_if:fruitId,3', 'max:255']
         ];
     }
 
@@ -24,7 +25,8 @@ class FruitRequest extends FormRequest {
             'name' => '名前',
             'fruitId' => '果物',
             'breedId' => '品種',
-            'memo' => 'メモ'
+            'memo' => 'メモ',
+            'product_area' => '産地'
         ];
     }
 
@@ -32,6 +34,7 @@ class FruitRequest extends FormRequest {
     {
         return [
             'required' => ':attributeを入力してください。',
+            'required_if' => ':attributeを入力してください。',
             'max' => ':attributeは:max文字以下で入力してください。'
         ];
 
