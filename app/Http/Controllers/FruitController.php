@@ -18,10 +18,10 @@ class FruitController extends Controller
     }
 
     public function index() {
-        $fruits = $this->fruitRepository->getFruits();
-        $list = [];
+        $list = $this->fruitRepository->getList();
+
         return view('fruit.index')->with([
-            'fruits' => $fruits
+            'list' => $list
         ]);
     }
 
