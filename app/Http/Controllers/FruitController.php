@@ -41,7 +41,7 @@ class FruitController extends Controller
     }
 
     /**
-     * プルダウンで選択されたフルーツがDBに存在するか確認
+     * 果物の存在チェック
      * @return
      */
     public function checkFruit() {
