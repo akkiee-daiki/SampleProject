@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\DB;
 
 class FruitRepository {
 
+    /**
+     * 一覧表示
+     * @return \Illuminate\Support\Collection
+     */
     public function getList() {
         $list = DB::table('fruit_lover')
             ->select(
@@ -30,6 +34,10 @@ class FruitRepository {
         return $list;
     }
 
+    /**
+     * 果物の取得（複数）
+     * @return \Illuminate\Support\Collection
+     */
     public function getFruits() {
 
         return DB::table('fruit')
@@ -37,6 +45,11 @@ class FruitRepository {
             ->get();
     }
 
+    /**
+     * 品種の取得（複数）
+     * @param array $input
+     * @return array
+     */
     public function getBreeds($input) {
 
         $query =  DB::table('fruit_breed')
@@ -54,6 +67,11 @@ class FruitRepository {
         return $list;
     }
 
+    /**
+     * フルーツ好きのデータの登録
+     * @param array $input
+     * @return bool
+     */
     public function insertRow($input) {
 
         DB::beginTransaction();

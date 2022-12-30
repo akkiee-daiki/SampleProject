@@ -17,6 +17,10 @@ class FruitController extends Controller
         $this->fruitRepository = $fruitRepository;
     }
 
+    /**
+     * 一覧画面
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index() {
         $list = $this->fruitRepository->getList();
 
@@ -25,6 +29,10 @@ class FruitController extends Controller
         ]);
     }
 
+    /**
+     * 入力画面
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function create() {
         $fruits = $this->fruitRepository->getFruits();
         return view('fruit.create')->with([
@@ -41,6 +49,7 @@ class FruitController extends Controller
     }
 
     /**
+     * 品種の取得
      * @param FruitRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -53,6 +62,11 @@ class FruitController extends Controller
         return response()->json(['breeds' => $breeds]);
     }
 
+    /**
+     * データ登録
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request) {
         $input = $request->except(['_token']);
         $input['breeds'] = $this->fruitRepository->getBreeds($input);
