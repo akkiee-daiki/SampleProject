@@ -66,8 +66,8 @@ class FruitController extends Controller
 
         header("Content-Type: application/octet-stream");
         header('Content-Length: '.filesize('fruit_lover.csv'));
-        header('Content-Disposition: attachment; filename=test.csv');
-        readfile('test.csv');
+        header('Content-Disposition: attachment; filename=fruit_lover.csv');
+        readfile('fruit_lover.csv');
 
         return redirect()->route('fruit.index');
     }
