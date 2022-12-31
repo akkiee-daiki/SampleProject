@@ -65,7 +65,7 @@ class FruitController extends Controller
         fclose($f);
 
         header("Content-Type: application/octet-stream");
-        header('Content-Length: '.filesize('test.csv'));
+        header('Content-Length: '.filesize('fruit_lover.csv'));
         header('Content-Disposition: attachment; filename=test.csv');
         readfile('test.csv');
 
