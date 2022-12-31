@@ -44,7 +44,7 @@ class FruitController extends Controller
              'メモ'
          ];
 
-        $f = fopen('test.csv', 'w');
+        $f = fopen('fruit_lover.csv', 'w');
         if ($f) {
             mb_convert_variables('SJIS', 'UTF-8', $head);
             fputcsv($f, $head);
