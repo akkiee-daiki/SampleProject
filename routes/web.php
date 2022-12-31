@@ -27,6 +27,7 @@ Route::group(['prefix' => '/query', 'as' => 'query.'], function () {
 
 Route::group(['prefix' => '/fruit', 'as' => 'fruit.'], function (){
     Route::match(['get', 'post'], '/', [FruitController::class, 'index'])->name('index');
+    Route::post('/export_csv', [FruitController::class, 'export_csv'])->name('export_csv');
     Route::get('/create', [FruitController::class, 'create'])->name('create');
     Route::post('/get_breed', [FruitController::class, 'get_breed'])->name('get_breed');
     Route::post('/create_confirm', [FruitController::class, 'create_confirm'])->name('create_confirm');

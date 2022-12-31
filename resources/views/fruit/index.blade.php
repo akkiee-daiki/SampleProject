@@ -10,7 +10,9 @@
 <body>
 <h1>果物好きリスト</h1>
 <div class="fruit_list_container">
-    <form action="">
+    <form action="" method="post" id="js-loverList">
+        @csrf
+
         <table>
             <tr>
                 <th class="id_th">人ID</th>
@@ -32,13 +34,16 @@
             @endforeach
         </table>
         <div class="btn_container">
-            <button onclick="location.href='{{ route('fruit.') }}'">エクスポート</button>
+            <button type="button" id="js-export">エクスポート</button>
             <button onclick="location.href='{{ route('fruit.create') }}'">新規追加する</button>
         </div>
     </form>
 </div>
 <script src="{{ asset('/js/jquery-3.6.1.min.js') }}"></script>
 <script>
+    $('#js-export').on('click', function () {
+       $('#js-loverList').attr('action', '{{ route('fruit.export_csv') }}').submit();
+    });
 </script>
 </body>
 </html>

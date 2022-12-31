@@ -8,7 +8,6 @@ use App\Repository\FruitRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-
 class FruitController extends Controller
 {
     private $fruitRepository;
@@ -27,6 +26,50 @@ class FruitController extends Controller
         return view('fruit.index')->with([
             'list' => $list
         ]);
+    }
+
+    /**
+     * csvファイル作成（publicディレクトリ配下に作成）
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function export_csv() {
+        $list = $this->fruitRepository->geCsvData();
+
+         $head = [
+             '人ID',
+             '名前',
+             '果物',
+             '品種',
+             '色',
+             'メモ'
+         ];
+
+        $f = fopen('test.csv', 'w');
+        if ($f) {
+            mb_convert_variables('SJIS', 'UTF-8', $head);
+            fputcsv($f, $head);
+        }
+
+        foreach ($list as $row) {
+            mb_convert_variables('SJIS', 'UTF-8', $row);
+            fputcsv($f, [
+                $row->fruit_lover_id,
+                $row->fruit_lover_name,
+                $row->fruit_name,
+                $row->fruit_breed_name,
+                $row->fruit_breed_color,
+                $row->fruit_lover_memo
+            ]);
+        }
+
+        fclose($f);
+
+        header("Content-Type: application/octet-stream");
+        header('Content-Length: '.filesize('test.csv'));
+        header('Content-Disposition: attachment; filename=test.csv');
+        readfile('test.csv');
+
+        return redirect()->route('fruit.index');
     }
 
     /**
