@@ -7,6 +7,7 @@ use App\Repository\FruitRepository;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FruitController extends Controller
 {
@@ -29,47 +30,46 @@ class FruitController extends Controller
     }
 
     /**
-     * csvファイル作成（publicディレクトリ配下に作成）
-     * @return \Illuminate\Http\RedirectResponse
+     * csvファイル作成・ダウンロード
+     * @return StreamedResponse
      */
     public function export_csv() {
-        $list = $this->fruitRepository->geCsvData();
 
-         $head = [
-             '人ID',
-             '名前',
-             '果物',
-             '品種',
-             '色',
-             'メモ'
-         ];
+        $response = new StreamedResponse(function () {
+            $stream = fopen('php://output', 'w');
 
-        $f = fopen('fruit_lover.csv', 'w');
-        if ($f) {
-            mb_convert_variables('SJIS', 'UTF-8', $head);
-            fputcsv($f, $head);
-        }
+            //　文字化け回避
+            stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
 
-        foreach ($list as $row) {
-            mb_convert_variables('SJIS', 'UTF-8', $row);
-            fputcsv($f, [
-                $row->fruit_lover_id,
-                $row->fruit_lover_name,
-                $row->fruit_name,
-                $row->fruit_breed_name,
-                $row->fruit_breed_color,
-                $row->fruit_lover_memo
-            ]);
-        }
+            $list = $this->fruitRepository->geCsvData();
 
-        fclose($f);
+            $head = [
+                '人ID',
+                '名前',
+                '果物',
+                '品種',
+                '色',
+                'メモ'
+            ];
 
-        header("Content-Type: application/octet-stream");
-        header('Content-Length: '.filesize('fruit_lover.csv'));
-        header('Content-Disposition: attachment; filename=fruit_lover.csv');
-        readfile('fruit_lover.csv');
+            fputcsv($stream, $head);
+            foreach ($list as $row) {
+                fputcsv($stream, [
+                    $row->fruit_lover_id,
+                    $row->fruit_lover_name,
+                    $row->fruit_name,
+                    $row->fruit_breed_name,
+                    $row->fruit_breed_color,
+                    $row->fruit_lover_memo
+                ]);
+            }
+            fclose($stream);
+        });
 
-        return redirect()->route('fruit.index');
+        $response->headers->set('Content-Type', 'application/octet-stream');
+        $response->headers->set('Content-Disposition', 'attachment; filename="fruit_lover.csv"');
+
+        return $response;
     }
 
     /**
