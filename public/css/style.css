@@ -32,3 +32,16 @@ table th {
 .id_th {
     width: 30px;
 }
+
+/* 絞り込み */
+.pull_down_row {
+    display: flex;
+}
+
+.add_narrow_search {
+    display: block;
+}
+
+.narrowSearchDiv {
+    display: none;
+}
