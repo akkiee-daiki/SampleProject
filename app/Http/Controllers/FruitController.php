@@ -142,5 +142,16 @@ class FruitController extends Controller
 
     }
 
+    public function pull_down() {
+        return view('fruit.pull_down')->with([
+            'narrowSearchList' => config('const.narrowSearchList')
+        ]);
+    }
 
+    public function get_narrow_pull_down(Request $request) {
+        $input = $request->except('_token');
+
+        $breeds = $this->fruitRepository->getBreeds($input);
+        return response()->json(['breeds' => $breeds]);
+    }
 }
