@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\QueryContrller;
 use App\Http\Controllers\FruitController;
+use App\Http\Controllers\MeatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,7 +28,7 @@ Route::group(['prefix' => '/query', 'as' => 'query.'], function () {
 
 Route::group(['prefix' => '/fruit', 'as' => 'fruit.'], function (){
     Route::match(['get', 'post'], '/', [FruitController::class, 'index'])->name('index');
-    Route::post('/export_csv', [FruitController::class, 'export_csv'])->name('export_csv');
+    Route::post('/export_csv',  [FruitController::class, 'export_csv'])->name('export_csv');
     Route::get('/create', [FruitController::class, 'create'])->name('create');
     Route::post('/get_breed', [FruitController::class, 'get_breed'])->name('get_breed');
     Route::post('/create_confirm', [FruitController::class, 'create_confirm'])->name('create_confirm');
@@ -35,4 +36,10 @@ Route::group(['prefix' => '/fruit', 'as' => 'fruit.'], function (){
     Route::get('/edit', [FruitController::class, 'edit'])->name('edit');
     Route::post('/update', [FruitController::class, 'update'])->name('update');
     Route::post('/delete', [FruitController::class, 'destroy'])->name('destroy');
+    Route::get('/pull_down', [FruitController::class, 'pull_down'])->name('pull_down');
+});
+
+Route::group(['prefix' => '/meat', 'as' => 'meat.'], function (){
+    Route::match(['get', 'meat'], '/', [MeatController::class, 'index'])->name('index');
+    Route::post('/export_csv',  [MeatController::class, 'export_csv'])->name('export_csv');
 });
