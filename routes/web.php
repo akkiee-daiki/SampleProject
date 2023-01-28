@@ -5,6 +5,8 @@ use App\Http\Controllers\HelloController;
 use App\Http\Controllers\QueryContrller;
 use App\Http\Controllers\FruitController;
 use App\Http\Controllers\MeatController;
+use App\Http\Controllers\FoodController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,5 +43,14 @@ Route::group(['prefix' => '/fruit', 'as' => 'fruit.'], function (){
 
 Route::group(['prefix' => '/meat', 'as' => 'meat.'], function (){
     Route::match(['get', 'meat'], '/', [MeatController::class, 'index'])->name('index');
+    Route::get('/create', [MeatController::class, 'create'])->name('create');
+    Route::post('/get_selects', [MeatController::class, 'getSelects'])->name('get_selects');
+    Route::post('/create_confirm', [MeatController::class, 'create_confirm'])->name('create_confirm');
     Route::post('/export_csv',  [MeatController::class, 'export_csv'])->name('export_csv');
 });
+
+Route::group(['prefix' => '/food', 'as' => 'food.'], function () {
+   Route::match(['get', 'post'], '/', [FoodController::class, 'index'])->name('index');
+});
+
+

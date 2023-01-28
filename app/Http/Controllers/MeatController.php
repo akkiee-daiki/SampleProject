@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MeatRequest;
 use App\Repository\MeatRepository;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MeatController extends Controller
@@ -25,6 +27,59 @@ class MeatController extends Controller
         return view('meat.index')->with([
             'list' => $list
         ]);
+    }
+
+    public function create(Request $request) {
+        $itemList = [
+            '1' => 'animal',
+            '2' => 'cooking',
+            '3' => 'part'
+        ];
+        return view('meat.create')->with([
+            'itemList' => $itemList
+        ]);
+    }
+
+    public function create_confirm(Request $request) {
+        $input = $request->only([
+            'cond'
+        ]);
+
+        $meatReq = new MeatRequest();
+        $validator = Validator::make($input, $meatReq->rules(), $meatReq->messages(), $meatReq->attributes());
+        if ($validator->fails()) {
+            return redirect()
+                ->route('meat.create')
+                ->withErrors($validator)
+                ->withInput($input);
+        }
+
+
+        $itemList = [
+            '1' => 'animal',
+            '2' => 'cooking',
+            '3' => 'part'
+        ];
+        $input = $request->except(['_token']);
+        dd($input);
+        return view('meat.create_confirm');
+    }
+
+    public function getSelects(Request $request) {
+        $input = $request->only([
+            'itemId'
+        ]);
+
+        if ($input['itemId'] === '1') {
+            $selects = ['1' => 'aa', '2' => 'bb', '3' => 'cc'];
+        } elseif ($input['itemId'] === '2') {
+            $selects =  ['p' => 'pp', 'q' => 'qq', 'r' => 'RR'];
+        } elseif ($input['itemId'] === '3') {
+            $selects = ['x' => 'xxx', 'y' => 'yyy', 'z' => 'zzz'];
+        } else {
+            $selects = [];
+        }
+        return response()->json(['selects' => $selects]);
     }
 
     /**

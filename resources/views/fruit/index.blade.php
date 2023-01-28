@@ -13,9 +13,12 @@
     <form action="" method="post" id="js-loverList">
         @csrf
 
+        <input type="hidden" name="sortColumn" value="">
+        <input type="hidden" name="sortOrder" value="">
+
         <table>
             <tr>
-                <th class="id_th">人ID</th>
+                <th class="id_th"><a href="javascript:void(0);" data-column>人ID</a></th>
                 <th>名前</th>
                 <th>果物</th>
                 <th>品種</th>
