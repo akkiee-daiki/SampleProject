@@ -6,7 +6,7 @@ use App\Http\Controllers\QueryContrller;
 use App\Http\Controllers\FruitController;
 use App\Http\Controllers\MeatController;
 use App\Http\Controllers\FoodController;
-
+use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,6 +51,16 @@ Route::group(['prefix' => '/meat', 'as' => 'meat.'], function (){
 
 Route::group(['prefix' => '/food', 'as' => 'food.'], function () {
    Route::match(['get', 'post'], '/', [FoodController::class, 'index'])->name('index');
+});
+
+Route::group(['prefix' => 'login', 'as' => 'login.'], function () {
+   Route::get('/', [LoginController::class, 'showLogin'])->name('show_login');
+   Route::post('/', [LoginController::class, 'authenticate'])->name('authenticate');
+});
+
+// 認証
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/after_login', [LoginController::class, 'afterLogin'])->name('after_login');
 });
 
 
