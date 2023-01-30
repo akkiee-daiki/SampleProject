@@ -39,7 +39,7 @@ class FruitRepository {
      * 一覧全情報取得
      * @return \Illuminate\Support\Collection
      */
-    public function geCsvData() {
+    public function geCsvData($input) {
 
         $list = DB::table('fruit_lover')
             ->select(
@@ -59,6 +59,7 @@ class FruitRepository {
                     ->whereNull('fruit_breed.deleted_at');
             })
             ->whereNull('fruit_lover.deleted_at')
+            ->whereIn('fruit_lover.fruit_lover_id', $input['fruit_lover_id'])
             ->get();
 
         return $list;

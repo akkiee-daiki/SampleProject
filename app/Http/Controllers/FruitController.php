@@ -34,14 +34,15 @@ class FruitController extends Controller
      * @return StreamedResponse
      */
     public function export_csv() {
-
-        $response = new StreamedResponse(function () {
+        $input['fruit_lover_id'] = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12];
+        $list = $this->fruitRepository->geCsvData($input);
+        $response = new StreamedResponse(function () use($list) {
             $stream = fopen('php://output', 'w');
 
             //　文字化け回避
             stream_filter_prepend($stream,'convert.iconv.utf-8/cp932//TRANSLIT');
 
-            $list = $this->fruitRepository->geCsvData();
+
 
             $head = [
                 '人ID',
@@ -71,6 +72,7 @@ class FruitController extends Controller
 
         return $response;
     }
+
 
     /**
      * 入力画面
