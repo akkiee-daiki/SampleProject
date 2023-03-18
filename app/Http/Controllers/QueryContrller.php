@@ -19,7 +19,6 @@ class QueryContrller extends Controller
 
 //    public function create(Request $request) {
 //        $input = $request->except(['_token']);
-//        var_dump($input);
 //        try {
 //            DB::beginTransaction();
 //
